@@ -1,0 +1,32 @@
+###################
+# Raw fastq files #
+###################
+
+# Running FastQC in all files (all folders):
+for file in $(ls *.fastq.gz); do fastqc $file; done; \
+mkdir FastQC_Before_Merged; \
+mv ./*.html ./FastQC_Before_Merged; \
+mv ./*.zip ./FastQC_Before_Merged \
+cd FastQC_Before_Merged; \
+multiqc . ; \
+cd ..; \
+
+# Merging files from different lanes and running FastQC again:
+for f in *_R1_001.fastq.gz; do cat "$f" >> "${f%%_*}.merged.fastq.gz"; done; \
+mkdir merged_files; \
+mv ./*_merged.fastq.gz ./merged_files; \
+cd merged_files; \
+for file in $(ls *.fastq.gz); do fastqc $file; done; \
+mkdir FastQC_merged; \
+mv ./*.html ./FastQC_merged; \
+mv ./*.zip ./FastQC_merged \
+cd FastQC_merged; \
+multiqc . ; \
+cd ..; \
+
+# Using atropos for read trimming (may run FastQC again):
+for file in $(ls *.fastq.gz); do atropos --mirna -a AACTGTAGGCACCATCAAT --maximum-length 30 -m 18 --discard-untrimmed -o $file.trimmed -se $file --report-file $file.txt; done; \
+mkdir trimmed ; \
+mv ./*txt trimmed; \
+mv ./*trimmed trimmed; \
+mv *fastq.gz.trimmed *fastq.gz \
