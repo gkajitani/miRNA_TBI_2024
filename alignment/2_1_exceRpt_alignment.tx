@@ -1,0 +1,30 @@
+######################################
+# Script for exceRpt - Trimmed files #
+######################################
+
+for file in $(ls *.merged.fastq.gz); do docker run\
+-v /home/i123/Documents/Gustavo/1st_run/Fastq/FastQC_merged:/exceRptInput\
+-v /mnt/genetica_2/Genetica_2_Back/Gustavo/Teste_untrimmed_excerpt_run_1/exceRptOutput\
+-v /mnt/genetica_2/Genetica_2_Back/excerpt_files/hg38_dir/hg38:/exceRpt_DB/hg38\
+-t rkitchen/excerpt INPUT_FILE_PATH=/exceRptInput/$file ADAPTER_SEQ=NONE\
+ENDOGENOUS_LIB_PRIORITY=miRNA,tRNA,piRNA,circRNA,gencode N_THREADS=20 JAVA_RAM=48G STAR_outFilterMatchNmin=14; done;
+
+##########################################
+# Script for exceRpt - Non-trimmed files #
+##########################################
+
+for file in $(ls *.merged.fastq.gz); do docker run -v /home/i123/Documents/Gustavo/1st_run/Fastq/FastQC_merged:/exceRptInput\
+-v /mnt/genetica_2/Genetica_2_Back/Gustavo/Teste_untrimmed_excerpt_run_1/exceRptOutput\
+-v /mnt/genetica_2/Genetica_2_Back/excerpt_files/hg38_dir/hg38:/exceRpt_DB/hg38\
+-t rkitchen/excerpt INPUT_FILE_PATH=/exceRptInput/$file ADAPTER_SEQ=AACTGTAGGCACCATCAAT\
+ENDOGENOUS_LIB_PRIORITY=miRNA,tRNA,piRNA,circRNA,gencode\
+N_THREADS=20 JAVA_RAM=48G STAR_outFilterMatchNmin=14; done;
+
+
+# General notes:
+
+3’ Adapter: AACTGTAGGCACCATCAAT
+
+5’ Adapter: GTTCAGAGTTCTACAGTCCGACGATC
+
+UMIs for the kit are 12 nt
