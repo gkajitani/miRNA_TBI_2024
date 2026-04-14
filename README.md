@@ -6,3 +6,4 @@ The article analyzed miRNA from traumatic brain injury (TBI) patients treated wi
 * alignment/ : pipeline folder for miRNA read alignment using exceRpt and miRge3.0.
 * DE_miRNA/ : folder of scripts for differential expression of miRNAs and plotting.
 * enrichment_analysis/ : folder of pipeline used for enrichment analysis of target mRNAs of DE miRNAs.
+* association_tests/ : folder with R codes for linear and logistic regression tests for continuous and categorical variables.
